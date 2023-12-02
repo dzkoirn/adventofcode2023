@@ -1,5 +1,5 @@
-import adventofcode2023.puzzle1
-import adventofcode2023.puzzle2
+import adventofcode2023.day1.puzzle1
+import adventofcode2023.day1.puzzle2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest

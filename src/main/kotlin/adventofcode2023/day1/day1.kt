@@ -1,4 +1,6 @@
-package adventofcode2023
+package adventofcode2023.day1
+
+import adventofcode2023.readInput
 
 fun main() {
     val list = readInput("day1.txt")
