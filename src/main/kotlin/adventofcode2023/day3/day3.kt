@@ -16,23 +16,27 @@ fun findAllIntersections(list: List<CharSequence>): List<String> {
     val foundedDigits = mutableListOf<String>()
 
     fun lineSearch(lineIndex: Int, rowIndex: Int) {
-        var startC = if (rowIndex > 1) {
+        var startC = if (rowIndex > 0) {
             rowIndex - 1
         } else {
             rowIndex
         }
-        while (startC > 0 && list[lineIndex][startC].isDigit()) {
-            startC--
+        if(startC > 0 && list[lineIndex][startC].isDigit()) {
+            while (startC - 1 >= 0 && list[lineIndex][startC - 1].isDigit()) {
+                startC--
+            }
         }
         var endC = if (rowIndex < list[lineIndex].lastIndex) {
             rowIndex + 1
         } else {
             rowIndex
         }
-        while (endC < list[lineIndex].lastIndex && list[lineIndex][endC].isDigit()) {
-            endC++
+        if(endC < list[lineIndex].lastIndex && list[lineIndex][endC].isDigit()) {
+            while (endC + 1 <= list[lineIndex].lastIndex && list[lineIndex][endC + 1].isDigit()) {
+                endC++
+            }
         }
-        list[lineIndex].substring(startC, endC)
+        list[lineIndex].substring(startC, endC + 1)
             .split('.')
             .filter { it.isNotEmpty() }
             .let { foundedDigits.addAll(it) }
@@ -43,22 +47,24 @@ fun findAllIntersections(list: List<CharSequence>): List<String> {
             if(!c.isDigit() && c != '.') {
                 if (indexC > 0 && list[indexL][indexC - 1].isDigit()) {
                     var indexCC = indexC - 1
-                    while (indexCC > 0 && list[indexL][indexCC].isDigit()) {
+                    while (indexCC >= 0 && list[indexL][indexCC].isDigit()) {
                         indexCC--
                     }
-                    foundedDigits.add(list[indexL].substring(indexCC, indexC))
+                    list[indexL].substring(indexCC + 1, indexC)
+                        .takeIf { it.isNotEmpty() }?.let { foundedDigits.add(it) }
                 }
                 if (indexC < l.length && list[indexL][indexC + 1].isDigit()) {
                     var indexCC = indexC + 1
                     while (indexCC < l.length && list[indexL][indexCC].isDigit()) {
                         indexCC++
                     }
-                    foundedDigits.add(list[indexL].substring(indexC + 1, indexCC))
+                    list[indexL].substring(indexC + 1, indexCC)
+                        .takeIf { it.isNotEmpty() }?.let { foundedDigits.add(it) }
                 }
                 if (indexL > 0) {
                     lineSearch(indexL - 1, indexC)
                 }
-                if (indexL < list.size) {
+                if (indexL < list.lastIndex) {
                     lineSearch(indexL + 1, indexC)
                 }
             }
