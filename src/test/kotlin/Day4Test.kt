@@ -30,6 +30,11 @@ class Day4Test {
         assertEquals(13, puzzle1(inputExample.lines()))
     }
 
+    @Test
+    fun testPuzzle2ExampleInput() {
+        assertEquals(30, puzzle2(inputExample.lines()))
+    }
+
     companion object {
 
         private val inputExample = """

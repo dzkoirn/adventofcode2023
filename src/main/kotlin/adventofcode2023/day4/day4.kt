@@ -14,6 +14,7 @@ fun main() {
     val input = readInput("day4")
     println("Day 4")
     println("Puzzle 1: ${puzzle1(input)}")
+    println("Puzzle 2: ${puzzle2(input)}")
 }
 
 fun parseLine(line: String): Card {
@@ -38,3 +39,16 @@ fun puzzle1(input: List<String>): Int = input.map { l -> parseLine(l) }
     .map { findWinningNumber(it) }
     .map { calculatePoints(it) }
     .sum()
+
+fun puzzle2(input: List<String>): Int {
+    val amounts = IntArray(input.size) { 1 }
+    input.map { l -> parseLine(l) }
+        .map { findWinningNumber(it).size }
+        .forEachIndexed { index: Int, i: Int ->
+            val multiplier = amounts[index]
+            repeat(i) { delta ->
+                amounts[index + 1 + delta] += multiplier
+            }
+        }
+    return amounts.sum()
+}
