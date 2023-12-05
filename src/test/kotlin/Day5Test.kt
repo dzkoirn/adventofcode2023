@@ -1,7 +1,4 @@
-import adventofcode2023.day5.ParsedInput
-import adventofcode2023.day5.map
-import adventofcode2023.day5.parseInput
-import adventofcode2023.day5.puzzle1
+import adventofcode2023.day5.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -189,6 +186,11 @@ class Day5Test {
     @Test
     fun puzzle1Test() {
         assertEquals(35, puzzle1(inputExample.lines()))
+    }
+
+    @Test
+    fun puzzle2Test() {
+        assertEquals(46, puzzle2dummy(inputExample.lines()))
     }
 
     companion object {

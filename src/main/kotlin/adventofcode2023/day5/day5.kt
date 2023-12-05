@@ -1,11 +1,21 @@
 package adventofcode2023.day5
 
 import adventofcode2023.readInput
+import kotlin.time.measureTime
 
 fun main() {
     val input = readInput("day5")
     println("Day 5")
-    println("Puzzle 1: ${puzzle1(input)}")
+    val duration1 = measureTime {
+        println("Puzzle 1: ${puzzle1(input)}")
+    }
+    println(duration1)
+
+    println("Puzzle 2 started")
+    val duration2 = measureTime {
+        println("Puzzle 2: ${puzzle2dummy(input)}")
+    }
+    println(duration2)
 }
 
 data class ParsedInput(
@@ -72,4 +82,18 @@ fun puzzle1(input: List<String>): Long {
     return parsedInput.seeds.map { s ->
         parsedInput.mappers.fold(s) { s, mapper -> mapper.map(s) }
     }.min()
+}
+
+fun puzzle2dummy(input: List<String>): Long {
+    val parsedInput = parseInput(input)
+    var minimalValue = Long.MAX_VALUE
+    parsedInput.seeds.windowed(size = 2, step = 2).forEach { (s, r) ->
+        (s..(s + r)).forEach {
+            val v = parsedInput.mappers.fold(it) { s, mapper -> mapper.map(s) }
+            if (minimalValue > v) {
+                minimalValue = v
+            }
+        }
+    }
+    return minimalValue
 }
