@@ -193,6 +193,11 @@ class Day5Test {
         assertEquals(46, puzzle2dummy(inputExample.lines()))
     }
 
+    @Test
+    fun puzzle2ParallelTest() {
+        assertEquals(46, puzzle2dummyParallel(inputExample.lines()))
+    }
+
     companion object {
         @JvmStatic
         fun mapperSource(): Stream<Pair<Long, Long>> = Stream.of(

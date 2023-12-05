@@ -1,6 +1,7 @@
 package adventofcode2023.day5
 
 import adventofcode2023.readInput
+import java.util.stream.LongStream
 import kotlin.time.measureTime
 
 fun main() {
@@ -16,6 +17,12 @@ fun main() {
         println("Puzzle 2: ${puzzle2dummy(input)}")
     }
     println(duration2)
+
+    println("Puzzle 2 started")
+    val duration2Parallel = measureTime {
+        println("Puzzle 2 Parallel: ${puzzle2dummyParallel(input)}")
+    }
+    println(duration2Parallel)
 }
 
 data class ParsedInput(
@@ -97,3 +104,15 @@ fun puzzle2dummy(input: List<String>): Long {
     }
     return minimalValue
 }
+
+fun puzzle2dummyParallel(input: List<String>): Long {
+    val parsedInput = parseInput(input)
+    return parsedInput.seeds.windowed(size = 2, step = 2)
+        .stream()
+        .parallel()
+        .flatMapToLong { (s, r) -> LongStream.range(s, s + r) }
+        .map { parsedInput.mappers.fold(it) { s, mapper -> mapper.map(s) } }
+        .min()
+        .asLong
+}
+
