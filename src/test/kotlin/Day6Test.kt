@@ -35,6 +35,14 @@ class Day6Test {
     }
 
     @Test
+    fun testParsing2() {
+        assertEquals(
+            Race(71530, 940200),
+            parseInput2(exampleInput.lines())
+        )
+    }
+
+    @Test
     fun testPuzzle1() {
         assertEquals(288, puzzle1(exampleInput.lines()))
     }
@@ -48,6 +56,21 @@ class Day6Test {
     fun testPuzzle1Solved() {
         assertEquals(288, puzzle1Solved(exampleInput.lines()))
     }
+
+    @Test
+    fun testPuzzle2() {
+        assertEquals(71503, puzzle2Dummy(exampleInput.lines()))
+    }
+
+    @Test
+    fun testPuzzle2Optimized() {
+        assertEquals(71503, puzzle2Optimized(exampleInput.lines()))
+    }
+
+//    @Test
+//    fun testPuzzle2Solved() {
+//        assertEquals(71503, puzzle2Solved(exampleInput.lines()))
+//    }
 
     companion object {
         @JvmStatic

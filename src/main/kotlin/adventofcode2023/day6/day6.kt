@@ -19,22 +19,32 @@ fun main() {
         println("Puzzle Solved 1: ${puzzle1Solved(input)}")
     }
     println("Puzzle 1 Solved took $duration1Solved")
+
+    val duration2Optimized = measureTime {
+        println("Puzzle Optimized 1: ${puzzle2Optimized(input)}")
+    }
+    println("Puzzle 2 Optimized took $duration2Optimized")
+    val duration2Dummy = measureTime {
+        println("Puzzle 1: ${puzzle2Dummy(input)}")
+    }
+    println("Puzzle 2 Dummy took $duration2Dummy")
+
 }
 
-data class Race(val time: Int, val distance: Int)
+data class Race(val time: Long, val distance: Long)
 
 fun parseInput(lines:List<String>): List<Race> {
     val (timeLine, distanceLine) = lines
-    val time = timeLine.substring("Time:".length).trim().split(' ').filter { it.isNotEmpty() }.map { it.toInt() }
-    val distance = distanceLine.substring("Distance:".length).trim().split(' ').filter { it.isNotEmpty() }.map { it.toInt() }
+    val time = timeLine.substring("Time:".length).trim().split(' ').filter { it.isNotEmpty() }.map { it.toLong() }
+    val distance = distanceLine.substring("Distance:".length).trim().split(' ').filter { it.isNotEmpty() }.map { it.toLong() }
     assert(time.size == distance.size)
     return time.indices.map { index ->
         Race(time[index], distance[index])
     }
 }
 
-fun findWinningStrategiesDummy(race: Race): List<Int> {
-    val combinations = mutableListOf<Int>()
+fun findWinningStrategiesDummy(race: Race): List<Long> {
+    val combinations = mutableListOf<Long>()
 
     for (x in 1 until race.time) {
         val y = race.time - x
@@ -87,4 +97,25 @@ fun puzzle1Solved(input: List<String>): Int {
     return parseInput(input).map { race ->
         findWinningStrategiesSolves(race)
     }.reduce { acc, i -> acc * i }
+}
+
+fun parseInput2(lines:List<String>): Race {
+    val (timeLine, distanceLine) = lines
+    val time = timeLine.substring("Time:".length).trim().split(' ').filter { it.isNotEmpty() }.joinToString(separator = "").toLong()
+    val distance = distanceLine.substring("Distance:".length).trim().split(' ').filter { it.isNotEmpty() }.joinToString(separator = "").toLong()
+    return Race(time, distance)
+}
+
+fun puzzle2Dummy(input: List<String>): Int {
+    return parseInput2(input).let { race ->
+        findWinningStrategiesDummy(race).size
+    }
+}
+
+fun puzzle2Optimized(input: List<String>): Int {
+    return findWinningStrategiesDummyOptimized(parseInput2(input))
+}
+
+fun puzzle2Solved(input: List<String>): Int {
+    return findWinningStrategiesSolves(parseInput2(input))
 }
