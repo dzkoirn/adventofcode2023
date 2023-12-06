@@ -11,6 +11,14 @@ fun main() {
         println("Puzzle 1: ${puzzle1(input)}")
     }
     println("Puzzle 1 took $duration1")
+    val duration1Optimized = measureTime {
+        println("Puzzle Optimized 1: ${puzzle1Optimized(input)}")
+    }
+    println("Puzzle 1 Solved took $duration1Optimized")
+    val duration1Solved = measureTime {
+        println("Puzzle Solved 1: ${puzzle1Solved(input)}")
+    }
+    println("Puzzle 1 Solved took $duration1Solved")
 }
 
 data class Race(val time: Int, val distance: Int)
@@ -25,7 +33,7 @@ fun parseInput(lines:List<String>): List<Race> {
     }
 }
 
-fun findWinningStrategies(race: Race): List<Int> {
+fun findWinningStrategiesDummy(race: Race): List<Int> {
     val combinations = mutableListOf<Int>()
 
     for (x in 1 until race.time) {
@@ -39,7 +47,10 @@ fun findWinningStrategies(race: Race): List<Int> {
     return combinations
 }
 
-fun findWinningStrategies2(race: Race): IntRange {
+fun findWinningStrategiesDummyOptimized(race: Race) =
+    (1 until race.time).count { x -> x * (race.time - x) > race.distance }
+
+fun findWinningStrategiesSolves(race: Race): Int {
     val b = -race.time
     val c = race.distance
 
@@ -50,15 +61,30 @@ fun findWinningStrategies2(race: Race): IntRange {
     } else {
         val root1 = ((-b + sqrt(discriminant)) / (2 * 1.0))
         val root2 = ((-b - sqrt(discriminant)) / (2 * 1.0))
-//        arrayOf(root1, root2).sortedArray().let { (first, second) ->
-//            IntRange(first + 1, second - 1)
-//        }
-        TODO()
+            val correctedEnd = if (root1 % 1 > 0) {
+                root1.toInt()
+            } else {
+                root1.toInt() -1
+            }
+        correctedEnd - root2.toInt()
+//            IntRange(start.toInt() + 1, correctedEnd)
     }
 }
 
 fun puzzle1(input: List<String>): Int {
     return parseInput(input).map { race ->
-        findWinningStrategies(race).size
+        findWinningStrategiesDummy(race).size
+    }.reduce { acc, i -> acc * i }
+}
+
+fun puzzle1Optimized(input: List<String>): Int {
+    return parseInput(input).map { race ->
+        findWinningStrategiesDummyOptimized(race)
+    }.reduce { acc, i -> acc * i }
+}
+
+fun puzzle1Solved(input: List<String>): Int {
+    return parseInput(input).map { race ->
+        findWinningStrategiesSolves(race)
     }.reduce { acc, i -> acc * i }
 }

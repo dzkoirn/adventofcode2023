@@ -1,5 +1,4 @@
 import adventofcode2023.day6.*
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -11,15 +10,20 @@ class Day6Test {
     @ParameterizedTest
     @MethodSource("solutionsSource")
     fun testFindWinningStrategies(testCase: Pair<Race, IntRange>) {
-        assertTrue { findWinningStrategies(testCase.first).all { it in testCase.second } }
+        assertTrue { findWinningStrategiesDummy(testCase.first).all { it in testCase.second } }
     }
 
-//    @ParameterizedTest
-//    @MethodSource("solutionsSource")
-//    fun testFindWinningStrategies2(testCase: Pair<Race, IntRange>) {
-//        val result = findWinningStrategies2(testCase.first)
-//        assertEquals(testCase.second, result)
-//    }
+    @ParameterizedTest
+    @MethodSource("solutionsSource")
+    fun testFindWinningStrategiesOptimized(testCase: Pair<Race, IntRange>) {
+        assertEquals(testCase.second.last - testCase.second.first + 1, findWinningStrategiesDummyOptimized(testCase.first))
+    }
+
+    @ParameterizedTest
+    @MethodSource("solutionsSource")
+    fun testFindWinningStrategies2(testCase: Pair<Race, IntRange>) {
+        assertEquals(testCase.second.last - testCase.second.first + 1, findWinningStrategiesSolves(testCase.first))
+    }
 
 
     @Test
@@ -33,6 +37,16 @@ class Day6Test {
     @Test
     fun testPuzzle1() {
         assertEquals(288, puzzle1(exampleInput.lines()))
+    }
+
+    @Test
+    fun testPuzzle1Optimized() {
+        assertEquals(288, puzzle1Optimized(exampleInput.lines()))
+    }
+
+    @Test
+    fun testPuzzle1Solved() {
+        assertEquals(288, puzzle1Solved(exampleInput.lines()))
     }
 
     companion object {
