@@ -21,11 +21,11 @@ fun main() {
     println("Puzzle 1 Solved took $duration1Solved")
 
     val duration2Optimized = measureTime {
-        println("Puzzle Optimized 1: ${puzzle2Optimized(input)}")
+        println("Puzzle 2 Optimized: ${puzzle2Optimized(input)}")
     }
     println("Puzzle 2 Optimized took $duration2Optimized")
     val duration2Dummy = measureTime {
-        println("Puzzle 1: ${puzzle2Dummy(input)}")
+        println("Puzzle 2 Dummy: ${puzzle2Dummy(input)}")
     }
     println("Puzzle 2 Dummy took $duration2Dummy")
 
