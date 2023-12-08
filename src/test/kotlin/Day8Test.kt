@@ -1,5 +1,6 @@
 import adventofcode2023.day8.parseInput
 import adventofcode2023.day8.walkThought
+import adventofcode2023.day8.puzzle2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -42,14 +43,21 @@ class Day8Test {
     @Test
     fun testWalkThrought1() {
         val parsedInput = parseInput(exampleInput1.lines())
-        val actual = walkThought(parsedInput.first.toCharArray(), parsedInput.second)
+        val actual = walkThought(parsedInput.first.toCharArray(), parsedInput.second, "AAA") { it != "ZZZ" }
         assertEquals(2, actual)
     }
 
     @Test
     fun testWalkThrought2() {
         val parsedInput = parseInput(exampleInput2.lines())
-        val actual = walkThought(parsedInput.first.toCharArray(), parsedInput.second)
+        val actual = walkThought(parsedInput.first.toCharArray(), parsedInput.second, "AAA") { it != "ZZZ" }
+        assertEquals(6, actual)
+    }
+
+    @Test
+    fun testPuzzle2() {
+        val parsedInput = parseInput(exampleInput3.lines())
+        val actual = puzzle2(parsedInput.first.toCharArray(), parsedInput.second)
         assertEquals(6, actual)
     }
 
@@ -74,6 +82,19 @@ class Day8Test {
             AAA = (BBB, BBB)
             BBB = (AAA, ZZZ)
             ZZZ = (ZZZ, ZZZ)
+        """.trimIndent()
+
+        val exampleInput3 = """
+            LR
+
+            11A = (11B, XXX)
+            11B = (XXX, 11Z)
+            11Z = (11B, XXX)
+            22A = (22B, XXX)
+            22B = (22C, 22C)
+            22C = (22Z, 22Z)
+            22Z = (22B, 22B)
+            XXX = (XXX, XXX)
         """.trimIndent()
     }
 }
