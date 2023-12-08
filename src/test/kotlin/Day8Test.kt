@@ -41,15 +41,15 @@ class Day8Test {
 
     @Test
     fun testWalkThrought1() {
-        val parsedInput = parseInput(exampleInput2.lines())
-        val actual = walkThought(parsedInput.first, parsedInput.second)
+        val parsedInput = parseInput(exampleInput1.lines())
+        val actual = walkThought(parsedInput.first.toCharArray(), parsedInput.second)
         assertEquals(2, actual)
     }
 
     @Test
     fun testWalkThrought2() {
-        val parsedInput = parseInput(exampleInput1.lines())
-        val actual = walkThought(parsedInput.first, parsedInput.second)
+        val parsedInput = parseInput(exampleInput2.lines())
+        val actual = walkThought(parsedInput.first.toCharArray(), parsedInput.second)
         assertEquals(6, actual)
     }
 
