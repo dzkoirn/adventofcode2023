@@ -10,6 +10,11 @@ fun main() {
         println("Puzzle 1 ${puzzle1(input)}")
     }
     println("Puzzle 1 took $puzzle1Timing")
+
+    val puzzle2Timing = measureTime {
+        println("Puzzle 2 ${puzzle2(input)}")
+    }
+    println("Puzzle 2 took $puzzle2Timing")
 }
 
 fun findStart(field:List<CharSequence>): Point {
@@ -54,4 +59,49 @@ fun puzzle1(input: List<String>): Int {
     val startPoint = findStart(field = input)
     val path = findPath(input, startPoint)
     return path.size/2
+}
+
+fun isPointInsidePath(point: Point, path: List<Point>): Boolean {
+    val x = point.line
+    val y = point.row
+    var isInside = false
+
+    for (i in path.indices) {
+        val j = if (i == path.lastIndex) 0 else i + 1
+        val xi = path[i].line
+        val yi = path[i].row
+        val xj = path[j].line
+        val yj = path[j].row
+
+        val intersect = ((yi > y) != (yj > y)) &&
+                (x < (xj - xi) * (y - yi) / (yj - yi) + xi)
+
+        if (intersect) {
+            isInside = !isInside
+        }
+    }
+
+    return isInside
+}
+
+fun puzzle2(input: List<String>): Int {
+    val startPoint = findStart(input)
+    val path = findPath(input, startPoint)
+    val pathAsList = path.toList()
+    val points = buildList {
+        input.indices.forEach { line ->
+            input[line].indices.forEach { row ->
+                val p = Point(line, row)
+                if (p !in path) {
+                    val symbol = input[line][row]
+                    val isInside = isPointInsidePath(p, pathAsList)
+                    if(isInside) {
+//                        println("$p $symbol $isInside")
+                        add(p)
+                    }
+                }
+            }
+        }
+    }
+    return points.size
 }

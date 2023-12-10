@@ -1,8 +1,5 @@
 import adventofcode2023.Point
-import adventofcode2023.day10.findPath
-import adventofcode2023.day10.findStart
-import adventofcode2023.day10.isPointsConnected
-import adventofcode2023.day10.puzzle1
+import adventofcode2023.day10.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -19,7 +16,7 @@ class Day10Test {
 
     @ParameterizedTest
     @MethodSource("connectedTestSource")
-    fun testIsConnected(testCase: Triple<Point, Point, Boolean>) {
+    fun testIsPointsConnected(testCase: Triple<Point, Point, Boolean>) {
         assertEquals(testCase.third, isPointsConnected(exampleInput1.lines(), testCase.first, testCase.second))
     }
 
@@ -34,6 +31,18 @@ class Day10Test {
     @MethodSource("puzzle1Cases")
     fun testPuzzle1(testCase: Pair<List<String>, Int>) {
         assertEquals(testCase.second, puzzle1(testCase.first))
+    }
+
+    @ParameterizedTest
+    @MethodSource("insideTestCases")
+    fun testIsPointInsidePath(testCase: Triple<List<String>, Point, Boolean>) {
+        assertEquals(testCase.third, isPointInsidePath(testCase.second, findPath(testCase.first, findStart(testCase.first)).toList()))
+    }
+
+    @ParameterizedTest
+    @MethodSource("puzzle2Source")
+    fun testPuzzle2(testCase: Pair<List<String>, Int>) {
+        assertEquals(testCase.second, puzzle2(testCase.first))
     }
 
     companion object {
@@ -91,6 +100,22 @@ class Day10Test {
             Pair(exampleInput2.lines(), 8)
         )
 
+        @JvmStatic
+        fun insideTestCases() = listOf(
+            Triple(exampleInput3.lines(), Point(3, 3), false),
+            Triple(exampleInput3.lines(), Point(6, 5), false),
+            Triple(exampleInput3.lines(), Point(6, 2), true),
+            Triple(exampleInput3.lines(), Point(6, 7), true),
+            Triple(exampleInput4.lines(), Point(2, 3), false),
+        )
+
+        @JvmStatic
+        fun puzzle2Source() = listOf(
+            Pair(exampleInput3.lines(), 4),
+            Pair(exampleInput4.lines(), 8),
+            Pair(exampleInput5.lines(), 10)
+        )
+
         val exampleInput1 = """
             -L|F7
             7S-7|
@@ -105,6 +130,44 @@ class Day10Test {
             SJLL7
             |F--J
             LJ.LJ
+        """.trimIndent()
+
+        val exampleInput3 = """
+            ...........
+            .S-------7.
+            .|F-----7|.
+            .||OOOOO||.
+            .||OOOOO||.
+            .|L-7OF-J|.
+            .|II|O|II|.
+            .L--JOL--J.
+            .....O.....
+        """.trimIndent()
+
+        val exampleInput4: String = """
+            OF----7F7F7F7F-7OOOO
+            O|F--7||||||||FJOOOO
+            O||OFJ||||||||L7OOOO
+            FJL7L7LJLJ||LJIL-7OO
+            L--JOL7IIILJS7F-7L7O
+            OOOOF-JIIF7FJ|L7L7L7
+            OOOOL7IF7||L7|IL7L7|
+            OOOOO|FJLJ|FJ|F7|OLJ
+            OOOOFJL-7O||O||||OOO
+            OOOOL---JOLJOLJLJOOO
+        """.trimIndent()
+
+        val exampleInput5: String = """
+            FF7FSF7F7F7F7F7F---7
+            L|LJ||||||||||||F--J
+            FL-7LJLJ||||||LJL-77
+            F--JF--7||LJLJIF7FJ-
+            L---JF-JLJIIIIFJLJJ7
+            |F|F-JF---7IIIL7L|7|
+            |FFJF7L7F-JF7IIL---7
+            7-L-JL7||F7|L7F-7F7|
+            L.L7LFJ|||||FJL7||LJ
+            L7JLJL-JLJLJL--JLJ.L
         """.trimIndent()
     }
 }
