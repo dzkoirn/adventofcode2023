@@ -1,8 +1,5 @@
 import adventofcode2023.Point
-import adventofcode2023.day11.calculateDistance
-import adventofcode2023.day11.findGalactics
-import adventofcode2023.day11.handleCosmicExpansion
-import adventofcode2023.day11.puzzle1
+import adventofcode2023.day11.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -34,6 +31,21 @@ class Day11Test {
     @Test
     fun testPuzzle1() {
         assertEquals(374, puzzle1(exampleInput))
+    }
+
+    @Test
+    fun testHandleCosmicExpansion2(){
+        val oldVersion = findGalactics(handleCosmicExpansion(exampleInput))
+
+        val newVersion = handleCosmicExpansion2(exampleInput, findGalactics(exampleInput), 2)
+
+        assertThat(newVersion).containsExactlyInAnyOrderElementsOf(oldVersion)
+    }
+
+    @ParameterizedTest
+    @MethodSource("puzzle2Source")
+    fun testPuzzle2Example(testCase: Pair<Int, Long>) {
+        assertEquals(testCase.second, puzzle2(exampleInput, testCase.first))
     }
 
     companion object {
@@ -72,6 +84,13 @@ class Day11Test {
             Triple(Point(0, 4), Point(10, 9), 15),
             Triple(Point(2, 0), Point(7, 12), 17),
             Triple(Point(11, 0), Point(11, 5), 5)
+        )
+
+        @JvmStatic
+        fun puzzle2Source() = listOf(
+            Pair(2, 374L),
+            Pair(10, 1030L),
+            Pair(100, 8410L)
         )
     }
 }
