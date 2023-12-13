@@ -18,7 +18,8 @@ class Day12Test {
     @Test
     fun testFindArrangements() {
         val (p, cs) = parseLine("?###???????? 3,2,1")
-        assertThat(findArrangements(p, cs)).containsExactlyInAnyOrder(
+        val actual = findArrangements(p, cs)
+        assertThat(actual).containsExactlyInAnyOrder(
             ".###.##.#...", ".###.##..#..", ".###.##...#.", ".###.##....#",  ".###..##.#..",
             ".###..##..#.", ".###..##...#", ".###...##.#.", ".###...##..#", ".###....##.#"
         )
