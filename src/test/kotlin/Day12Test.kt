@@ -1,7 +1,4 @@
-import adventofcode2023.day12.countArrangements
-import adventofcode2023.day12.findArrangements
-import adventofcode2023.day12.parseLine
-import adventofcode2023.day12.puzzle1
+import adventofcode2023.day12.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -27,8 +24,25 @@ class Day12Test {
 
     @ParameterizedTest
     @MethodSource("arrangementsTestSource")
-    fun testArrangements(testCase: Pair<String, Int>) {
+    fun testCountArrangements(testCase: Pair<String, Int>) {
         assertEquals(testCase.second, countArrangements(testCase.first))
+    }
+
+    @ParameterizedTest
+    @MethodSource("arrangementsTestSource2")
+    fun testCountArrangements2(testCase: Pair<String, Int>) {
+        assertEquals(testCase.second, countArrangements2(testCase.first))
+    }
+
+    @ParameterizedTest
+    @MethodSource("arrangementsTestSource2")
+    fun testCountArrangements2Dummy(testCase: Pair<String, Int>) {
+        assertEquals(testCase.second, countArrangements2Dummy(testCase.first))
+    }
+
+    @Test
+    fun testPuzzle2() {
+        assertEquals(525152, puzzle2(exampleInput))
     }
 
     companion object {
@@ -40,6 +54,16 @@ class Day12Test {
             Pair("????.#...#... 4,1,1", 1),
             Pair("????.######..#####. 1,6,5", 4),
             Pair("?###???????? 3,2,1", 10)
+        )
+
+        @JvmStatic
+        fun arrangementsTestSource2() = listOf(
+            Pair("???.### 1,1,3", 1L),
+            Pair(".??..??...?##. 1,1,3", 16384L),
+            Pair("?#?#?#?#?#?#?#? 1,3,1,6", 1L),
+            Pair("????.#...#... 4,1,1", 16L),
+            Pair("????.######..#####. 1,6,5", 2500L),
+            Pair("?###???????? 3,2,1", 506250L)
         )
 
         val exampleInput = """

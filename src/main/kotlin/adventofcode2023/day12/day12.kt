@@ -10,10 +10,24 @@ fun main() {
         println("Puzzle 1 ${puzzle1(input)}")
     }
     println("Puzzle 1 took $puzzle1Duration")
+    val puzzle1ParalelStreamDuration = measureTime {
+        println("Puzzle 1 ParallelStream ${puzzle1ParallelStream(input)}")
+    }
+    println("Puzzle 1 ParallelStream took $puzzle1ParalelStreamDuration")
+
+    println("Puzzle 2")
+    val puzzle2Duration = measureTime {
+        println("Puzzle 2 ${puzzle2(input)}")
+    }
+    println("Puzzle 2 took $puzzle1Duration")
 }
 
 fun puzzle1(input: List<String>): Int {
     return input.sumOf { l -> countArrangements(l) }
+}
+
+fun puzzle1ParallelStream(input: List<String>): Int {
+    return input.stream().parallel().map { l -> countArrangements(l) }.toList().sum()
 }
 
 fun countArrangements(line: String): Int {
@@ -61,4 +75,36 @@ fun findArrangements(pattern: String, checkSum: IntArray): Collection<String> {
     return candidates.filter { p ->
         p.split('.').filter { it.isNotEmpty() }.checker()
     }
+}
+
+fun countArrangements2(line: String): Long {
+    val (p,checkSum) = parseLine(line)
+    val first = findArrangements(p, checkSum).size.toLong()
+    return if(p.last() == '.') {
+        val additional = findArrangements("?$p", checkSum).size.toLong()
+        first * additional * additional * additional * additional
+    } else {
+        val additional = findArrangements("$p?$p", checkSum).size.toLong()
+        first * additional * additional
+    }
+}
+
+fun puzzle2(input: List<String>): Long {
+    return input.sumOf { l -> countArrangements2(l) }
+}
+
+fun countArrangements2Dummy(line: String): Long {
+    val (p,checkSum) = parseLine(line)
+    val newPattern = p + buildString {
+        repeat(4) {
+            append("?$p")
+        }
+    }
+    val newCheckSum = buildList {
+        repeat(5) {
+            addAll(checkSum.toList())
+        }
+    }.toIntArray()
+
+    return findArrangements(newPattern, newCheckSum).size.toLong()
 }
