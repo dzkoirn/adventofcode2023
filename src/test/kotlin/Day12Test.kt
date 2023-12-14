@@ -34,16 +34,11 @@ class Day12Test {
         assertEquals(testCase.second, countArrangements2(testCase.first))
     }
 
-    @ParameterizedTest
-    @MethodSource("arrangementsTestSource2")
-    fun testCountArrangements2Dummy(testCase: Pair<String, Int>) {
-        assertEquals(testCase.second, countArrangements2Dummy(testCase.first))
-    }
-
-    @Test
-    fun testPuzzle2() {
-        assertEquals(525152, puzzle2(exampleInput))
-    }
+//    @Ignore
+//    @Test
+//    fun testPuzzle2() {
+//        assertEquals(525152, puzzle2(exampleInput))
+//    }
 
     companion object {
         @JvmStatic

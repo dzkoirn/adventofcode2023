@@ -15,11 +15,11 @@ fun main() {
     }
     println("Puzzle 1 ParallelStream took $puzzle1ParalelStreamDuration")
 
-    println("Puzzle 2")
-    val puzzle2Duration = measureTime {
-        println("Puzzle 2 ${puzzle2(input)}")
-    }
-    println("Puzzle 2 took $puzzle1Duration")
+//    println("Puzzle 2")
+//    val puzzle2Duration = measureTime {
+//        println("Puzzle 2 ${puzzle2(input)}")
+//    }
+//    println("Puzzle 2 took $puzzle1Duration")
 }
 
 fun puzzle1(input: List<String>): Int {
@@ -44,20 +44,20 @@ fun parseLine(line: String): Pair<String, IntArray> =
     }
 
 fun findArrangements(pattern: String, checkSum: IntArray): Collection<String> {
-    tailrec fun generateCandidates(pattern: String, index: Int = 0, candidates: List<String> = emptyList()): List<String> {
+    tailrec fun generateCandidates(pattern: String, index: Int = 0, candidates: Collection<String> = emptySet()): Collection<String> {
         if (index == pattern.length) {
             return candidates
         }
         val character = pattern[index]
         val newCandidates = if (character == '?') {
             if (candidates.isEmpty()) {
-                listOf(".", "#")
+                setOf(".", "#")
             } else {
                 candidates.flatMap { listOf("$it.", "$it#") }
             }
         } else {
             if (candidates.isEmpty()) {
-                listOf(character.toString())
+                setOf(character.toString())
             } else {
                 candidates.map { it + character }
             }
@@ -78,33 +78,24 @@ fun findArrangements(pattern: String, checkSum: IntArray): Collection<String> {
 }
 
 fun countArrangements2(line: String): Long {
-    val (p,checkSum) = parseLine(line)
-    val first = findArrangements(p, checkSum).size.toLong()
+    val (p,checkSum) = parseLine(line).let {(l,c) ->
+        "$l?$l?$l?$l?$l" to c + c + c + c + c
+    }
+
+
+    val minLenght = checkSum.sum() + checkSum.size - 1
+
     return if(p.last() == '.') {
+        val first = findArrangements(p, checkSum).size.toLong()
         val additional = findArrangements("?$p", checkSum).size.toLong()
         first * additional * additional * additional * additional
     } else {
-        val additional = findArrangements("$p?$p", checkSum).size.toLong()
-        first * additional * additional
+        val first = findArrangements("$p?", checkSum).size.toLong()
+        val additional = findArrangements("?$p", checkSum).size.toLong()
+        first * additional * additional * additional * additional
     }
 }
 
 fun puzzle2(input: List<String>): Long {
     return input.sumOf { l -> countArrangements2(l) }
-}
-
-fun countArrangements2Dummy(line: String): Long {
-    val (p,checkSum) = parseLine(line)
-    val newPattern = p + buildString {
-        repeat(4) {
-            append("?$p")
-        }
-    }
-    val newCheckSum = buildList {
-        repeat(5) {
-            addAll(checkSum.toList())
-        }
-    }.toIntArray()
-
-    return findArrangements(newPattern, newCheckSum).size.toLong()
 }
