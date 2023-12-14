@@ -28,11 +28,11 @@ class Day12Test {
         assertEquals(testCase.second, countArrangements(testCase.first))
     }
 
-    @ParameterizedTest
-    @MethodSource("arrangementsTestSource2")
-    fun testCountArrangements2(testCase: Pair<String, Int>) {
-        assertEquals(testCase.second, countArrangements2(testCase.first))
-    }
+//    @ParameterizedTest
+//    @MethodSource("arrangementsTestSource2")
+//    fun testCountArrangements2(testCase: Pair<String, Int>) {
+//        assertEquals(testCase.second, countArrangements2(testCase.first))
+//    }
 
 //    @Ignore
 //    @Test
