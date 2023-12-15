@@ -1,6 +1,4 @@
-import adventofcode2023.day13.findReflection
-import adventofcode2023.day13.parseInput
-import adventofcode2023.day13.puzzle1
+import adventofcode2023.day13.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -45,6 +43,18 @@ class Day13Test {
         assertEquals(405, puzzle1(exampleInput))
     }
 
+    @ParameterizedTest
+    @MethodSource("findMutationReflections")
+    fun testFindMutationReflection(testCase: Pair<List<String>, Int>) {
+        val actual = findMutationReflection(testCase.first, findMutationCandidates(testCase.first))
+        assertEquals(testCase.second, actual)
+    }
+
+    @Test
+    fun testPuzzle2() {
+        assertEquals(400, puzzle2(exampleInput))
+    }
+
     companion object {
         @JvmStatic
         fun reflection() = listOf(
@@ -84,6 +94,29 @@ class Day13Test {
                 100
             )
         )
+
+        @JvmStatic
+        fun findMutationReflections() = listOf(
+            Pair("""
+                #.##..##.
+                ..#.##.#.
+                ##......#
+                ##......#
+                ..#.##.#.
+                ..##..##.
+                #.#.##.#.
+            """.trimIndent().lines(), 300),
+            Pair("""
+                #...##..#
+                #....#..#
+                ..##..###
+                #####.##.
+                #####.##.
+                ..##..###
+                #....#..#
+            """.trimIndent().lines(), 100),
+        )
+
 
         val exampleInput = """
             #.##..##.
