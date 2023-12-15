@@ -43,7 +43,7 @@ fun findReflection(input: List<String>): Int {
             if (a == b) {
                 if (index > 0) {
                     val range = min(index, (input.lastIndex - (index + 1)))
-                    val isReflection = index > 0 && (0..range).all { i ->
+                    val isReflection = (0..range).all { i ->
                         println("all $range, $index, $i, ${input[index - i]}, ${input[index + 1 + i]}, ${input[index - i] == input[index + 1 + i]}")
                         input[index - i] == input[index + 1 + i]
                     }
