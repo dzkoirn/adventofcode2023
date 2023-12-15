@@ -89,7 +89,6 @@ fun findReflection(input: List<String>): Int {
         } else {
             0
         }
-
     }
 }
 
