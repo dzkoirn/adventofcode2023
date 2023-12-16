@@ -14,11 +14,6 @@ fun main() {
     println("Puzzle 1 took $puzzle1Duration")
 
     println("\n================================================================\n")
-
-    val puzzle2Duration = measureTime {
-        println("Puzzle 2 ${puzzle2(input)}")
-    }
-    println("Puzzle 2 took $puzzle2Duration")
 }
 
 fun parseInput(input: List<String>): Collection<List<String>> {
@@ -58,12 +53,6 @@ fun findReflection(input: List<String>): Int {
             null
         }
         return candidates.firstOrNull()
-//        return if (candidates.size != 1) {
-//            null
-//        } else {
-//            candidates.first()
-//        }
-
     }
 
     val row = findIndex(input)
@@ -94,81 +83,3 @@ fun findReflection(input: List<String>): Int {
 }
 
 fun puzzle1(input: List<String>): Int = parseInput(input).sumOf { findReflection(it) }
-
-fun findMutationCandidates(input: List<String>): List<Triple<Int, String, Int>> {
-    return buildList {
-        input.subList(0, input.lastIndex - 1).forEachIndexed { index, s1 ->
-            input.subList(index + 1, input.lastIndex).forEachIndexed { index2, s2 ->
-                var difference = 1
-                var diffI = 0
-                for ((i, c) in s1.withIndex()) {
-                    if (s2[i] != c) {
-                        diffI = i
-                        difference--
-                    }
-                    if (difference < 0) {
-                        break
-                    }
-                }
-                if (difference == 0) {
-                    println("findMutationCandidates = $index, $s1, $diffI, ${s1[diffI]}")
-                    println("findMutationCandidates = ${(index2 + index + 1)}, $s2, $diffI, ${s2[diffI]}")
-                    add(Triple(index, s1, diffI))
-                    add(Triple(index2 + index + 1, s2, diffI))
-                }
-            }
-        }
-    }
-}
-
-fun findMutationReflection(input: List<String>, candidates: List<Triple<Int, String, Int>>): Int {
-    var result = 0
-    for ((index, s, charIndex) in candidates) {
-        val newInput = input.toMutableList().let { list ->
-            val newS = s.toCharArray().let { arr ->
-                val character = arr[charIndex]
-                arr[charIndex] = if (character == '#') {
-                    '.'
-                } else {
-                    '#'
-                }
-                String(arr)
-            }
-            println("newS = $newS")
-            list[index] = newS
-            list.toList()
-        }
-        println("New input:\n${newInput.mapIndexed { i, sss -> "$i $sss" }.joinToString(separator = "\n") { it }}")
-        result = findReflection(newInput)
-        println("result = $result")
-        if (result > 0) {
-            break
-        }
-    }
-    return result
-}
-
-fun puzzle2(source: List<String>): Int =
-    parseInput(source).sumOf { input ->
-        println("Input:\n${input.joinToString(separator = "\n") { it }}")
-        val candidates = findMutationCandidates(input)
-        var result = 0
-        if (candidates.isNotEmpty()) {
-            result = findMutationReflection(input, candidates)
-        }
-        if (candidates.isEmpty() || result == 0) {
-            val newInput = buildList {
-                input.first.indices.forEach { i ->
-                    add(buildString {
-                        input.forEach { l ->
-                            append(l[i])
-                        }
-                    })
-                }
-            }
-            println("Rotated Input:\n${newInput.joinToString(separator = "\n") { it }}")
-            val newCandidates = findMutationCandidates(newInput)
-            result = findMutationReflection(newInput, newCandidates) / 100
-        }
-        result
-    }

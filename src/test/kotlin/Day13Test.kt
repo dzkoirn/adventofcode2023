@@ -43,44 +43,22 @@ class Day13Test {
         assertEquals(405, puzzle1(exampleInput))
     }
 
-    @ParameterizedTest
-    @MethodSource("findMutationReflections")
-    fun testFindMutationReflection(testCase: Pair<List<String>, Int>) {
-        println("Input:\n${testCase.first.mapIndexed { index, s -> "$index $s" }.joinToString(separator = "\n") { it }}")
-        val actual = findMutationReflection(testCase.first, findMutationCandidates(testCase.first))
-        assertEquals(testCase.second, actual)
-    }
-
     @Test
     fun testPuzzle2() {
         assertEquals(400, puzzle2(exampleInput))
     }
 
-    @Test
-    fun testPuzzle2_1() {
-        assertEquals(700, puzzle2("""
-                .#....#.#####.#.#
-                #.#...##..###.###
-                #.##.#..##..##..#
-                .....#.###.#...##
-                .##..#....###.#..
-                .#..#...#..#.#.#.
-                .#..#.#..#.##.###
-                .#..#.#..#.##.###
-                .#..#...#..#.#...
-                .##..#....###.#..
-                .....#.###.#...##
-                #.##.#..##..##..#
-                #.#...##..###.###
-                .#....#.#####.#.#
-                .#....#.#####.#.#
-            """.trimIndent().lines()))
+    @ParameterizedTest
+    @MethodSource("mutations")
+    fun testMutateInput(testCase: Pair<List<String>, List<String>>) {
+        assertEquals(testCase.second, mutateInput(testCase.first))
     }
 
     companion object {
         @JvmStatic
         fun reflection() = listOf(
-            Pair("""
+            Pair(
+                """
                 #.##..##.
                 ..#.##.#.
                 ##......#
@@ -88,8 +66,10 @@ class Day13Test {
                 ..#.##.#.
                 ..##..##.
                 #.#.##.#.
-            """.trimIndent().lines(), 5),
-            Pair("""
+            """.trimIndent().lines(), 5
+            ),
+            Pair(
+                """
                 #...##..#
                 #....#..#
                 ..##..###
@@ -97,8 +77,10 @@ class Day13Test {
                 #####.##.
                 ..##..###
                 #....#..#
-            """.trimIndent().lines(), 400),
-            Pair("""
+            """.trimIndent().lines(), 400
+            ),
+            Pair(
+                """
                 #.#.....#.##.##.#
                 #.#.....#.##.##.#
                 .....#...#####...
@@ -118,8 +100,9 @@ class Day13Test {
         )
 
         @JvmStatic
-        fun findMutationReflections() = listOf(
-            Pair("""
+        fun mutations() = listOf(
+            Pair(
+                """
                 #.##..##.
                 ..#.##.#.
                 ##......#
@@ -127,8 +110,30 @@ class Day13Test {
                 ..#.##.#.
                 ..##..##.
                 #.#.##.#.
-            """.trimIndent().lines(), 300),
-            Pair("""
+            """.trimIndent().lines(),
+                listOf(
+                    """
+                ..##..##.
+                ..#.##.#.
+                ##......#
+                ##......#
+                ..#.##.#.
+                ..##..##.
+                #.#.##.#.
+            """.trimIndent().lines(),
+                    """
+                #.##..##.
+                ..#.##.#.
+                ##......#
+                ##......#
+                ..#.##.#.
+                #.##..##.
+                #.#.##.#.
+            """.trimIndent().lines()
+                )
+            ),
+            Pair(
+                """
                 #...##..#
                 #....#..#
                 ..##..###
@@ -136,25 +141,57 @@ class Day13Test {
                 #####.##.
                 ..##..###
                 #....#..#
-            """.trimIndent().lines(), 100),
-            Pair("""
-                .#....#.#####.#.#
-                #.#...##..###.###
-                #.##.#..##..##..#
-                .....#.###.#...##
-                .##..#....###.#..
-                .#..#...#..#.#.#.
-                .#..#.#..#.##.###
-                .#..#.#..#.##.###
-                .#..#...#..#.#...
-                .##..#....###.#..
-                .....#.###.#...##
-                #.##.#..##..##..#
-                #.#...##..###.###
-                .#....#.#####.#.#
-                .#....#.#####.#.#
-            """.trimIndent().lines(), 700
-
+            """.trimIndent().lines(),
+                listOf(
+                    """
+                #....#..#
+                #....#..#
+                ..##..###
+                #####.##.
+                #####.##.
+                ..##..###
+                #....#..#
+            """.trimIndent().lines(),
+                    """
+                #...##..#
+                #...##..#
+                ..##..###
+                #####.##.
+                #####.##.
+                ..##..###
+                #....#..#
+            """.trimIndent().lines()
+                )
+            ),
+            Pair(
+                """
+                .##.#..
+                .##.###
+                ..#####
+                #..####
+                .####..
+                .#...##
+                ##...##
+            """.trimIndent().lines(),
+                listOf("""
+                .##.#..
+                .##.###
+                ..#####
+                #..####
+                .####..
+                .#...##
+                .#...##
+            """.trimIndent().lines(),
+            """
+                .##.#..
+                .##.###
+                ..#####
+                #..####
+                .####..
+                ##...##
+                ##...##
+            """.trimIndent().lines()
+                )
             )
         )
 
