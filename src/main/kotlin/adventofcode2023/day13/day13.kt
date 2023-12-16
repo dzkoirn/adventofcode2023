@@ -57,11 +57,12 @@ fun findReflection(input: List<String>): Int {
             }
             null
         }
-        return if (candidates.size != 1) {
-            null
-        } else {
-            candidates.first()
-        }
+        return candidates.firstOrNull()
+//        return if (candidates.size != 1) {
+//            null
+//        } else {
+//            candidates.first()
+//        }
 
     }
 
@@ -137,7 +138,7 @@ fun findMutationReflection(input: List<String>, candidates: List<Triple<Int, Str
             list[index] = newS
             list.toList()
         }
-        println("New input:\n${newInput.joinToString(separator = "\n") { it }}")
+        println("New input:\n${newInput.mapIndexed { i, sss -> "$i $sss" }.joinToString(separator = "\n") { it }}")
         result = findReflection(newInput)
         println("result = $result")
         if (result > 0) {
@@ -151,9 +152,11 @@ fun puzzle2(source: List<String>): Int =
     parseInput(source).sumOf { input ->
         println("Input:\n${input.joinToString(separator = "\n") { it }}")
         val candidates = findMutationCandidates(input)
+        var result = 0
         if (candidates.isNotEmpty()) {
-            findMutationReflection(input, candidates)
-        } else {
+            result = findMutationReflection(input, candidates)
+        }
+        if (candidates.isEmpty() || result == 0) {
             val newInput = buildList {
                 input.first.indices.forEach { i ->
                     add(buildString {
@@ -163,8 +166,9 @@ fun puzzle2(source: List<String>): Int =
                     })
                 }
             }
+            println("Rotated Input:\n${newInput.joinToString(separator = "\n") { it }}")
             val newCandidates = findMutationCandidates(newInput)
-            findMutationReflection(newInput, newCandidates) / 100
+            result = findMutationReflection(newInput, newCandidates) / 100
         }
-
+        result
     }

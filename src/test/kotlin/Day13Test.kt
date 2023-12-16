@@ -46,6 +46,7 @@ class Day13Test {
     @ParameterizedTest
     @MethodSource("findMutationReflections")
     fun testFindMutationReflection(testCase: Pair<List<String>, Int>) {
+        println("Input:\n${testCase.first.mapIndexed { index, s -> "$index $s" }.joinToString(separator = "\n") { it }}")
         val actual = findMutationReflection(testCase.first, findMutationCandidates(testCase.first))
         assertEquals(testCase.second, actual)
     }
@@ -53,6 +54,27 @@ class Day13Test {
     @Test
     fun testPuzzle2() {
         assertEquals(400, puzzle2(exampleInput))
+    }
+
+    @Test
+    fun testPuzzle2_1() {
+        assertEquals(700, puzzle2("""
+                .#....#.#####.#.#
+                #.#...##..###.###
+                #.##.#..##..##..#
+                .....#.###.#...##
+                .##..#....###.#..
+                .#..#...#..#.#.#.
+                .#..#.#..#.##.###
+                .#..#.#..#.##.###
+                .#..#...#..#.#...
+                .##..#....###.#..
+                .....#.###.#...##
+                #.##.#..##..##..#
+                #.#...##..###.###
+                .#....#.#####.#.#
+                .#....#.#####.#.#
+            """.trimIndent().lines()))
     }
 
     companion object {
@@ -115,6 +137,25 @@ class Day13Test {
                 ..##..###
                 #....#..#
             """.trimIndent().lines(), 100),
+            Pair("""
+                .#....#.#####.#.#
+                #.#...##..###.###
+                #.##.#..##..##..#
+                .....#.###.#...##
+                .##..#....###.#..
+                .#..#...#..#.#.#.
+                .#..#.#..#.##.###
+                .#..#.#..#.##.###
+                .#..#...#..#.#...
+                .##..#....###.#..
+                .....#.###.#...##
+                #.##.#..##..##..#
+                #.#...##..###.###
+                .#....#.#####.#.#
+                .#....#.#####.#.#
+            """.trimIndent().lines(), 700
+
+            )
         )
 
 
