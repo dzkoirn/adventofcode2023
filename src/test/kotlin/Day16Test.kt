@@ -1,3 +1,4 @@
+import adventofcode2023.day16.findBestStartPoint
 import adventofcode2023.day16.findEnergizedPoints
 import adventofcode2023.day16.visualize
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -15,6 +16,12 @@ class Day16Test {
             ).joinToString("\n") { chars -> chars.joinToString("") { "$it" } }
         )
         assertEquals(46, result.size)
+    }
+
+    @Test
+    fun testFindBestStartPoint() {
+        val result = findBestStartPoint(exampleInput)
+        assertEquals(51, result)
     }
 
     companion object {

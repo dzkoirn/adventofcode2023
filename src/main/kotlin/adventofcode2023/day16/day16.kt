@@ -15,6 +15,13 @@ fun main() {
         println("Puzzle 1 ${output.size}")
     }
     println("Puzzle took $time1")
+
+    println("Puzzle 2")
+    val time2 = measureTime {
+        val output = findBestStartPoint(input)
+        println("Puzzle 2 $output")
+    }
+    println("Puzzle 2 took $time2")
 }
 
 data class RayHeader(
@@ -109,4 +116,17 @@ fun visualize(input: List<CharArray>, points: Set<Point>): List<CharArray> {
         input[line][row] = '#'
     }
     return input
+}
+
+fun findBestStartPoint(input: List<String>): Int {
+    val preparedInput = input.map { it.toCharArray() }
+    return listOf(
+        Array(input.size) { index -> RayHeader(Point(index, 0), RayHeader.Direction.RIGHT) },
+        Array(input.size) { index -> RayHeader(Point(index, input.first.lastIndex), RayHeader.Direction.LEFT) },
+        Array(input.first.length) { index -> RayHeader(Point(0, index), RayHeader.Direction.DOWN) },
+        Array(input.first.length) { index -> RayHeader(Point(input.lastIndex, index), RayHeader.Direction.UP) },
+    ).flatMap { it.toList() }
+    .stream().parallel().map { start ->
+        findEnergizedPoints(preparedInput, listOf(start)).size
+    }.max(Comparator.naturalOrder()).get()
 }
