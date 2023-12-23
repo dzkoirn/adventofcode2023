@@ -31,3 +31,4 @@ fun Point.pointsAround(): List<Point> =
         Point(line, row + 1),
         Point(line + 1, row)
     )
+
