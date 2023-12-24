@@ -21,14 +21,14 @@ typealias Point = Pair<Int, Int>
 val Point.line: Int
     get() = this.first
 
-val Point.row: Int
+val Point.col: Int
     get() = this.second
 
 fun Point.pointsAround(): List<Point> =
     listOf(
-        Point(line, row - 1),
-        Point(line - 1, row),
-        Point(line, row + 1),
-        Point(line + 1, row)
+        Point(line, col - 1),
+        Point(line - 1, col),
+        Point(line, col + 1),
+        Point(line + 1, col)
     )
 

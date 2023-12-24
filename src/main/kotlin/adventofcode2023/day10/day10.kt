@@ -43,14 +43,14 @@ tailrec fun findPath(field: List<CharSequence>, point: Point, path: MutableSet<P
 }
 
 fun isPointsConnected(field: List<CharSequence>, first: Point, second: Point): Boolean {
-    val f = field[first.line][first.row]
-    val s = field[second.line][second.row]
-    val diff = Pair(second.line - first.line, second.row - first.row)
+    val f = field[first.line][first.col]
+    val s = field[second.line][second.col]
+    val diff = Pair(second.line - first.line, second.col - first.col)
     return when {
-        diff.line == 0 && diff.row == -1 -> f in "S-7J" && s in "S-FL"
-        diff.line == -1 && diff.row == 0 -> f in "SJ|L" && s in "SF|7"
-        diff.line == 0 && diff.row == 1 -> f in "S-FL" && s in "S-J7"
-        diff.line == 1 && diff.row == 0 -> f in "S|F7" && s in "S|JL"
+        diff.line == 0 && diff.col == -1 -> f in "S-7J" && s in "S-FL"
+        diff.line == -1 && diff.col == 0 -> f in "SJ|L" && s in "SF|7"
+        diff.line == 0 && diff.col == 1 -> f in "S-FL" && s in "S-J7"
+        diff.line == 1 && diff.col == 0 -> f in "S|F7" && s in "S|JL"
         else -> false
     }
 }
@@ -63,15 +63,15 @@ fun puzzle1(input: List<String>): Int {
 
 fun isPointInsidePath(point: Point, path: List<Point>): Boolean {
     val x = point.line
-    val y = point.row
+    val y = point.col
     var isInside = false
 
     for (i in path.indices) {
         val j = if (i == path.lastIndex) 0 else i + 1
         val xi = path[i].line
-        val yi = path[i].row
+        val yi = path[i].col
         val xj = path[j].line
-        val yj = path[j].row
+        val yj = path[j].col
 
         val intersect = ((yi > y) != (yj > y)) &&
                 (x < (xj - xi) * (y - yi) / (yj - yi) + xi)
