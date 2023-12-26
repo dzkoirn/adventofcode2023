@@ -1,3 +1,4 @@
+import adventofcode2023.day19.puzzle2
 import adventofcode2023.day19.Part
 import adventofcode2023.day19.parsePart
 import adventofcode2023.day19.puzzle1
@@ -18,6 +19,12 @@ class Day19Test {
     @MethodSource("partsSource")
     fun testParseParts(testCase: Pair<String, Part>) {
         assertEquals(testCase.second, parsePart(testCase.first))
+    }
+
+    @Test
+    fun testPuzzle2() {
+        val actual = puzzle2(exampleInput)
+        assertEquals(167409079868000, actual)
     }
 
     companion object {
