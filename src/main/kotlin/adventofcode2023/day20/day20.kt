@@ -1,5 +1,6 @@
 package adventofcode2023.day20
 
+import adventofcode2023.day8.findLCM
 import adventofcode2023.readInput
 import java.util.LinkedList
 import java.util.Queue
@@ -135,4 +136,45 @@ fun main() {
         println("Puzzle 1 ${puzzle1(input)}")
     }
     println("Puzzle 1 took $time1")
+
+    val time2 = measureTime {
+        println("Puzzle 2 ${puzzle2(input)}")
+    }
+    println("Puzzle 2 took $time2")
+}
+
+fun puzzle2(input: List<String>): Long {
+    val schema = parseInput(input)
+
+    val queue: Queue<Signal> = LinkedList()
+
+    val modulesToListen = schema.values.filter { it.destinations.contains("ll") }.map { it.name }.toMutableSet()
+    val counters = mutableListOf<Long>()
+
+    var counter: Long = 1
+
+    while(true) {
+        queue.add(Signal(Signal.SignalLevel.LOW, "button", "broadcaster"))
+
+        while (queue.isNotEmpty()) {
+            val signal = queue.poll()
+            if (signal.destination == "rx" && signal.level == Signal.SignalLevel.LOW) {
+                return counter
+            }
+            if (signal.source in modulesToListen && signal.level == Signal.SignalLevel.HIGH) {
+                counters.add(counter)
+                modulesToListen.remove(signal.source)
+            }
+            val module = schema[signal.destination]
+            if (module != null) {
+                val out = module.sendSignal(signal)
+                queue.addAll(out)
+            }
+        }
+        counter++
+
+        if (modulesToListen.isEmpty()) {
+           return counters.reduce(::findLCM)
+        }
+    }
 }

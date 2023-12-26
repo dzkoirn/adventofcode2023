@@ -88,7 +88,7 @@ fun puzzle2(commands: CharArray, graph: Map<String, Pair<String, String>>): Long
         .get()
 }
 
-private fun findLCM(a: Long, b: Long): Long {
+fun findLCM(a: Long, b: Long): Long {
     if (a == 0L || b == 0L) {
         return 0
     }
@@ -96,7 +96,7 @@ private fun findLCM(a: Long, b: Long): Long {
     return abs(a * b) / findGCD(a, b)
 }
 
-private fun findGCD(a: Long, b: Long): Long {
+fun findGCD(a: Long, b: Long): Long {
     var num1 = a
     var num2 = b
 
