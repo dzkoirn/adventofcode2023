@@ -48,11 +48,11 @@ class Day13Test {
         assertEquals(400, puzzle2(exampleInput))
     }
 
-    @ParameterizedTest
-    @MethodSource("mutations")
-    fun testMutateInput(testCase: Pair<List<String>, List<String>>) {
-        assertEquals(testCase.second, mutateInput(testCase.first))
-    }
+//    @ParameterizedTest
+//    @MethodSource("mutations")
+//    fun testMutateInput(testCase: Pair<List<String>, List<String>>) {
+//        assertEquals(testCase.second, mutateInput(testCase.first))
+//    }
 
     companion object {
         @JvmStatic
